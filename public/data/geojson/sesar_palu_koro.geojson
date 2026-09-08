@@ -1,0 +1,56 @@
+{
+    "features":  [
+                     {
+                         "properties":  {
+                                            "laju_geser":  "35 - 44 mm/tahun",
+                                            "keterangan":  "Sesar aktif pembelah Kota Palu dan Teluk Palu, pemicu gempa utama 28 September 2018.",
+                                            "tipe":  "Patahan Geser Mendatar Kiri (Sinistral Strike-Slip)",
+                                            "sumber":  "PuSGeN / Badan Geologi",
+                                            "nama":  "Sesar Palu-Koro (Segmen Palu)"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.78,
+                                                                  -0.6
+                                                              ],
+                                                              [
+                                                                  119.815,
+                                                                  -0.72
+                                                              ],
+                                                              [
+                                                                  119.835,
+                                                                  -0.8
+                                                              ],
+                                                              [
+                                                                  119.848,
+                                                                  -0.855
+                                                              ],
+                                                              [
+                                                                  119.858,
+                                                                  -0.892
+                                                              ],
+                                                              [
+                                                                  119.87,
+                                                                  -0.925
+                                                              ],
+                                                              [
+                                                                  119.885,
+                                                                  -0.97
+                                                              ],
+                                                              [
+                                                                  119.91,
+                                                                  -1.05
+                                                              ],
+                                                              [
+                                                                  119.935,
+                                                                  -1.18
+                                                              ]
+                                                          ],
+                                          "type":  "LineString"
+                                      }
+                     }
+                 ],
+    "type":  "FeatureCollection"
+}

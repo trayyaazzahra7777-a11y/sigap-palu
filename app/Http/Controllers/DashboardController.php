@@ -2,82 +2,202 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\DataGempa;
+use App\Models\DataMukaLaut;
+use App\Models\Peringatan;
+use App\Models\SumberData;
+use App\Models\Wilayah;
+use App\Services\RiskAnalysisService;
 
 class DashboardController extends Controller
 {
+    public function __construct(protected RiskAnalysisService $riskService) {}
+
+    /**
+     * Beranda Publik SIGAP-PALU
+     */
     public function landing()
     {
-        return view('landing');
+        // 1. Data Seismisitas Aktual (BMKG)
+        $gempaTerbaru = DataGempa::terbaru()->first();
+        $gempaList = DataGempa::terbaru()->limit(5)->get();
+
+        // 2. Data Pasang Surut / Muka Laut Teluk Palu
+        $mukaLautTerbaru = DataMukaLaut::terbaru()->first();
+        $mukaLautList = DataMukaLaut::terbaru()->limit(7)->get();
+
+        // 3. Peringatan Dini Aktif
+        $peringatanAktif = Peringatan::with('wilayah')
+            ->aktif()
+            ->latest('waktu_mulai')
+            ->get();
+
+        // 4. Metrik Risiko Kota Dihitung Dinamis dari Database
+        $cityMetrics = $this->riskService->getCityWideMetrics();
+
+        // 5. Wilayah Prioritas
+        $priorityAreas = $this->riskService->getPriorityAreas();
+
+        // 6. Status Sumber Data
+        $sumberData = SumberData::all();
+
+        return view('landing', compact(
+            'gempaTerbaru',
+            'gempaList',
+            'mukaLautTerbaru',
+            'mukaLautList',
+            'peringatanAktif',
+            'cityMetrics',
+            'priorityAreas',
+            'sumberData'
+        ));
     }
 
-    public function index()
+    /**
+     * Halaman Monitoring Publik
+     */
+    public function monitoring()
     {
-        // Menyediakan data riil & fallback simulasi jika database belum dimigrasi penuh
-        $wilayah = [
-            ['id' => 1, 'nama' => 'Palu Barat', 'lat' => -0.8923, 'lng' => 119.8492, 'risiko' => 'Tinggi', 'kesiapsiagaan' => 'Cukup', 'ancaman' => 'Tinggi', 'kerentanan' => 'Tinggi', 'kapasitas' => 'Sedang'],
-            ['id' => 2, 'nama' => 'Palu Timur', 'lat' => -0.8872, 'lng' => 119.8821, 'risiko' => 'Sedang', 'kesiapsiagaan' => 'Baik', 'ancaman' => 'Sedang', 'kerentanan' => 'Sedang', 'kapasitas' => 'Baik'],
-            ['id' => 3, 'nama' => 'Palu Selatan', 'lat' => -0.9234, 'lng' => 119.8899, 'risiko' => 'Sedang', 'kesiapsiagaan' => 'Baik', 'ancaman' => 'Sedang', 'kerentanan' => 'Sedang', 'kapasitas' => 'Baik'],
-            ['id' => 4, 'nama' => 'Palu Utara', 'lat' => -0.7915, 'lng' => 119.8631, 'risiko' => 'Rendah', 'kesiapsiagaan' => 'Baik', 'ancaman' => 'Rendah', 'kerentanan' => 'Rendah', 'kapasitas' => 'Baik'],
-            ['id' => 5, 'nama' => 'Tatanga', 'lat' => -0.9254, 'lng' => 119.8512, 'risiko' => 'Sedang', 'kesiapsiagaan' => 'Cukup', 'ancaman' => 'Sedang', 'kerentanan' => 'Tinggi', 'kapasitas' => 'Sedang'],
-            ['id' => 6, 'nama' => 'Ulujadi', 'lat' => -0.8521, 'lng' => 119.8241, 'risiko' => 'Sedang', 'kesiapsiagaan' => 'Baik', 'ancaman' => 'Sedang', 'kerentanan' => 'Sedang', 'kapasitas' => 'Baik'],
-            ['id' => 7, 'nama' => 'Mantikulore', 'lat' => -0.8712, 'lng' => 119.9142, 'risiko' => 'Rendah', 'kesiapsiagaan' => 'Baik', 'ancaman' => 'Rendah', 'kerentanan' => 'Rendah', 'kapasitas' => 'Baik'],
-            ['id' => 8, 'nama' => 'Tawaeli', 'lat' => -0.7231, 'lng' => 119.8921, 'risiko' => 'Rendah', 'kesiapsiagaan' => 'Baik', 'ancaman' => 'Rendah', 'kerentanan' => 'Rendah', 'kapasitas' => 'Baik'],
-        ];
+        $gempaList = DataGempa::terbaru()->paginate(10);
+        $mukaLautList = DataMukaLaut::terbaru()->paginate(10);
+        $peringatanList = Peringatan::with('wilayah')->latest('waktu_mulai')->get();
+        $sumberData = SumberData::all();
+        $cityMetrics = $this->riskService->getCityWideMetrics();
 
-        return view('dashboard.index', compact('wilayah'));
+        return view('public.monitoring', compact(
+            'gempaList',
+            'mukaLautList',
+            'peringatanList',
+            'sumberData',
+            'cityMetrics'
+        ));
     }
 
+    /**
+     * Halaman Peta Risiko Interaktif Terbuka
+     */
     public function petaRisiko()
     {
-        return $this->index();
+        $wilayahList = Wilayah::all();
+        $priorityAreas = $this->riskService->getPriorityAreas();
+        $gempaTerbaru = DataGempa::terbaru()->limit(10)->get();
+
+        return view('public.peta-risiko', compact('wilayahList', 'priorityAreas', 'gempaTerbaru'));
     }
 
-    public function gempa()
+    /**
+     * Halaman Sejarah Bencana 28 September 2018
+     */
+    public function sejarah()
     {
-        $gempa_list = [
-            ['waktu' => '08 Sep 2026, 14:12 WITA', 'magnitudo' => '3.2', 'kedalaman' => '10 km', 'lokasi' => '12 km Timur Laut Palu', 'potensi' => 'Tidak Berpotensi Tsunami', 'sumber' => 'BMKG'],
-            ['waktu' => '07 Sep 2026, 08:34 WITA', 'magnitudo' => '2.8', 'kedalaman' => '12 km', 'lokasi' => '8 km Barat Daya Sigi', 'potensi' => 'Tidak Berpotensi Tsunami', 'sumber' => 'BMKG'],
-            ['waktu' => '05 Sep 2026, 21:05 WITA', 'magnitudo' => '3.5', 'kedalaman' => '9 km', 'lokasi' => 'Teluk Palu Segmen Utara', 'potensi' => 'Tidak Berpotensi Tsunami', 'sumber' => 'BMKG'],
-        ];
-        return view('dashboard.gempa', compact('gempa_list'));
+        return view('public.sejarah');
     }
 
-    public function mukaLaut()
+    /**
+     * Halaman Pusat Edukasi Kebencanaan
+     */
+    public function edukasi(?string $topic = null)
     {
-        $data_laut = [
-            ['waktu' => '12:00', 'tinggi' => 1.18, 'status' => 'Normal'],
-            ['waktu' => '13:00', 'tinggi' => 1.25, 'status' => 'Normal'],
-            ['waktu' => '14:00', 'tinggi' => 1.34, 'status' => 'Normal'],
-            ['waktu' => '15:00', 'tinggi' => 1.29, 'status' => 'Normal'],
-            ['waktu' => '16:00', 'tinggi' => 1.21, 'status' => 'Normal'],
-        ];
-        return view('dashboard.laut', compact('data_laut'));
+        return view('public.edukasi', compact('topic'));
     }
 
-    public function kesiapsiagaan()
+    /**
+     * Halaman Mitigasi & Kesiapsiagaan
+     */
+    public function mitigasi()
     {
-        return view('dashboard.kesiapsiagaan');
+        return view('public.mitigasi');
     }
 
-    public function analisis()
+    /**
+     * Halaman Tentang Sistem & Kajian Lingkungan Hidup
+     */
+    public function tentang()
     {
-        return view('dashboard.analisis');
+        return view('public.tentang');
     }
 
-    public function peringatan()
+    /**
+     * Export / Download Rekap Data Kesiapsiagaan Wilayah
+     */
+    public function unduhRekap()
     {
-        return view('dashboard.peringatan');
-    }
+        $priorityAreas = $this->riskService->getPriorityAreas();
+        $filename = 'rekap_kesiapsiagaan_palu_'.date('Ymd_His').'.xls';
 
-    public function kejadian()
-    {
-        return view('dashboard.kejadian');
-    }
+        return response()->streamDownload(function () use ($priorityAreas) {
+            echo '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                <style>
+                    body { font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+                    table { border-collapse: collapse; width: 100%; }
+                    .banner-title { background-color: #059669; color: #FFFFFF; font-size: 14pt; font-weight: bold; padding: 12px; }
+                    .meta-row { font-size: 9pt; color: #475569; padding: 4px; }
+                    th { background-color: #0f172a; color: #FFFFFF; font-size: 9.5pt; font-weight: bold; border: 1px solid #94a3b8; padding: 8px; text-align: center; }
+                    td { border: 1px solid #cbd5e1; font-size: 9pt; padding: 6px 8px; vertical-align: middle; }
+                    .center { text-align: center; }
+                    .badge-tinggi { background-color: #fee2e2; color: #991b1b; font-weight: bold; text-align: center; }
+                    .badge-sedang { background-color: #fef3c7; color: #92400e; font-weight: bold; text-align: center; }
+                    .badge-rendah { background-color: #dcfce7; color: #166534; font-weight: bold; text-align: center; }
+                </style>
+            </head>
+            <body>
+                <table>
+                    <tr>
+                        <td colspan="9" class="banner-title">
+                            SIGAP-PALU: REKAPITULASI PROFIL RISIKO & KESIAPSIAGAAN BENCANA WILAYAH
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="meta-row"><b>Waktu Unduh:</b></td>
+                        <td colspan="7" class="meta-row">'.date('d-m-Y H:i:s').' WITA</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="meta-row"><b>Formula KLH:</b></td>
+                        <td colspan="7" class="meta-row">Risiko = (Indeks Ancaman × Indeks Kerentanan) / Indeks Kapasitas</td>
+                    </tr>
+                    <tr><td colspan="9" style="border:none; height:8px;"></td></tr>
+                    <thead>
+                        <tr>
+                            <th>Peringkat Prioritas</th>
+                            <th>Kecamatan</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Skor Risiko (0-100)</th>
+                            <th>Tingkat Risiko</th>
+                            <th>Skor Kesiapsiagaan</th>
+                            <th>Tingkat Kesiapsiagaan</th>
+                            <th>Faktor Risiko Utama</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
-    public function monitoringRisiko()
-    {
-        return $this->index();
+            foreach ($priorityAreas as $idx => $item) {
+                $rank = $idx + 1;
+                $clsRisiko = match ($item['tingkat_risiko']) {
+                    'Tinggi' => 'badge-tinggi',
+                    'Sedang' => 'badge-sedang',
+                    default => 'badge-rendah',
+                };
+
+                echo "<tr>
+                    <td class='center'>#{$rank}</td>
+                    <td><b>{$item['nama_wilayah']}</b></td>
+                    <td class='center'>{$item['latitude']}</td>
+                    <td class='center'>{$item['longitude']}</td>
+                    <td class='center'>{$item['skor_risiko']}</td>
+                    <td class='{$clsRisiko}'>{$item['tingkat_risiko']}</td>
+                    <td class='center'>{$item['skor_kesiapsiagaan']}</td>
+                    <td class='center'>{$item['tingkat_kesiapsiagaan']}</td>
+                    <td>{$item['faktor_utama']}</td>
+                </tr>";
+            }
+
+            echo '</tbody></table></body></html>';
+        }, $filename, [
+            'Content-Type' => 'application/vnd.ms-excel; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+        ]);
     }
 }

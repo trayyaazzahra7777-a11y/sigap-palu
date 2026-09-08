@@ -1,0 +1,100 @@
+{
+    "features":  [
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Palu Timur",
+                                            "daya_tampung":  "15.000 jiwa",
+                                            "jenis":  "Tempat Evakuasi Akhir (TEA)",
+                                            "elevasi_mdpl":  35,
+                                            "nama":  "Lapangan Vatulemo (Depan Kantor Walikota)",
+                                            "status":  "Terverifikasi Resmi BPBD",
+                                            "tipe_ruang":  "Ruang Terbuka Publik"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              119.8821,
+                                                              -0.895
+                                                          ],
+                                          "type":  "Point"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Mantikulore",
+                                            "daya_tampung":  "30.000 jiwa",
+                                            "jenis":  "Tempat Evakuasi Akhir (TEA)",
+                                            "elevasi_mdpl":  65,
+                                            "nama":  "Kawasan Kampus Universitas Tadulako (Untad) Tondo",
+                                            "status":  "Terverifikasi Resmi BPBD",
+                                            "tipe_ruang":  "Kawasan Pendidikan \u0026 Dataran Tinggi"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              119.8975,
+                                                              -0.855
+                                                          ],
+                                          "type":  "Point"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Mantikulore",
+                                            "daya_tampung":  "25.000 jiwa",
+                                            "jenis":  "Tempat Evakuasi Akhir (TEA)",
+                                            "elevasi_mdpl":  110,
+                                            "nama":  "Kawasan Kawatuna - Bukit Samudra",
+                                            "status":  "Terverifikasi Resmi BPBD",
+                                            "tipe_ruang":  "Kawasan Perbukitan Aman Bebas Tsunami \u0026 Likuifaksi"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              119.925,
+                                                              -0.925
+                                                          ],
+                                          "type":  "Point"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Palu Barat",
+                                            "daya_tampung":  "3.500 jiwa",
+                                            "jenis":  "Tempat Evakuasi Sementara (TES)",
+                                            "elevasi_mdpl":  25,
+                                            "nama":  "GOR Siranindi Palu Barat",
+                                            "status":  "Terverifikasi Resmi BPBD",
+                                            "tipe_ruang":  "Gedung Olahraga \u0026 Shelter Vertikal"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              119.852,
+                                                              -0.892
+                                                          ],
+                                          "type":  "Point"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Tawaeli",
+                                            "daya_tampung":  "5.000 jiwa",
+                                            "jenis":  "Tempat Evakuasi Sementara (TES)",
+                                            "elevasi_mdpl":  40,
+                                            "nama":  "Lapangan Terbuka Kelurahan Pantoloan",
+                                            "status":  "Terverifikasi Resmi BPBD",
+                                            "tipe_ruang":  "Ruang Terbuka Aman"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              119.885,
+                                                              -0.715
+                                                          ],
+                                          "type":  "Point"
+                                      }
+                     }
+                 ],
+    "type":  "FeatureCollection"
+}

@@ -6,98 +6,86 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    // Menampilkan halaman login
+    public function showLoginForm()
     {
+        if (Auth::check()) {
+            return $this->redirectBerdasarkanRole(Auth::user()->role);
+        }
+
         return view('auth.login');
     }
 
+    // Proses login
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
-            'password' => ['required'],
-        ], [
-            'email.required'    => 'Alamat email wajib diisi.',
-            'email.email'       => 'Format email tidak valid (contoh: nama@domain.com).',
-            'password.required' => 'Kata sandi wajib diisi.',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            
-            // Semua pengguna (Admin, Operator, User) langsung diarahkan ke Dashboard Terpadu
-            return redirect()->intended(route('dashboard'));
+
+            return $this->redirectBerdasarkanRole(Auth::user()->role);
         }
 
         return back()->withErrors([
-            'email' => 'Kombinasi email dan kata sandi tidak cocok.',
+            'email' => 'Email atau password salah.',
         ])->onlyInput('email');
     }
 
-    public function showRegister()
+    // Menampilkan form pendaftaran
+    public function showRegisterForm()
     {
         return view('auth.register');
     }
 
+    // Proses Pendaftaran (Public otomatis jadi 'user')
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'name' => [
-                'required',
-                'string',
-                'min:3',
-                'max:60',
-                'regex:/^[a-zA-Z\s]+$/'
-            ],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:users,email'
-            ],
-            'password' => [
-                'required',
-                'string',
-                'confirmed',
-                Password::min(8)
-            ],
-        ], [
-            'name.required'      => 'Nama lengkap wajib diisi.',
-            'name.min'           => 'Nama lengkap minimal 3 karakter.',
-            'name.regex'         => 'Nama hanya boleh menggunakan huruf dan spasi.',
-            'email.required'     => 'Alamat email wajib diisi.',
-            'email.email'        => 'Masukkan format email yang valid.',
-            'email.unique'       => 'Email ini sudah terdaftar. Silakan gunakan email lain atau masuk.',
-            'password.required'  => 'Kata sandi wajib diisi.',
-            'password.min'       => 'Kata sandi minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8|confirmed',
         ]);
 
-        // Buat akun baru secara otomatis sebagai role 'user'
         $user = User::create([
-            'name'     => trim($validated['name']),
-            'email'    => strtolower(trim($validated['email'])),
-            'password' => Hash::make($validated['password']),
-            'role'     => 'user',
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user', // Aturan mutlak: Public selalu mendaftar sebagai User
+            'status' => 'aktif',
         ]);
 
         Auth::login($user);
 
-        // Langsung masuk ke Dashboard Monitoring
-        return redirect()->route('dashboard');
+        return redirect()->route('user.dashboard');
     }
 
+    // Proses Logout (Kembali ke beranda)
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect('/');
+    }
+
+    // Helper Fungsi Redirect
+    private function redirectBerdasarkanRole($role)
+    {
+        if ($role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+        if ($role === 'operator') {
+            return redirect()->route('operator.dashboard');
+        }
+
+        return redirect()->route('user.dashboard');
     }
 }

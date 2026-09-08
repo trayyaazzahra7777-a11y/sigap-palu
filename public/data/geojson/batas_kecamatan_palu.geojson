@@ -1,0 +1,285 @@
+{
+    "features":  [
+                     {
+                         "properties":  {
+                                            "warna":  "#dc2626",
+                                            "nama_wilayah":  "Palu Barat",
+                                            "kecamatan":  "Palu Barat",
+                                            "tingkat_risiko":  "Tinggi",
+                                            "id_wilayah":  1
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.83,
+                                                                  -0.875
+                                                              ],
+                                                              [
+                                                                  119.86,
+                                                                  -0.875
+                                                              ],
+                                                              [
+                                                                  119.862,
+                                                                  -0.905
+                                                              ],
+                                                              [
+                                                                  119.83,
+                                                                  -0.905
+                                                              ],
+                                                              [
+                                                                  119.83,
+                                                                  -0.875
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#ea580c",
+                                            "nama_wilayah":  "Palu Timur",
+                                            "kecamatan":  "Palu Timur",
+                                            "tingkat_risiko":  "Sedang",
+                                            "id_wilayah":  2
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.862,
+                                                                  -0.87
+                                                              ],
+                                                              [
+                                                                  119.895,
+                                                                  -0.87
+                                                              ],
+                                                              [
+                                                                  119.895,
+                                                                  -0.9
+                                                              ],
+                                                              [
+                                                                  119.862,
+                                                                  -0.9
+                                                              ],
+                                                              [
+                                                                  119.862,
+                                                                  -0.87
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#ea580c",
+                                            "nama_wilayah":  "Palu Selatan",
+                                            "kecamatan":  "Palu Selatan",
+                                            "tingkat_risiko":  "Sedang",
+                                            "id_wilayah":  3
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.87,
+                                                                  -0.905
+                                                              ],
+                                                              [
+                                                                  119.92,
+                                                                  -0.905
+                                                              ],
+                                                              [
+                                                                  119.92,
+                                                                  -0.945
+                                                              ],
+                                                              [
+                                                                  119.87,
+                                                                  -0.945
+                                                              ],
+                                                              [
+                                                                  119.87,
+                                                                  -0.905
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#ea580c",
+                                            "nama_wilayah":  "Palu Utara",
+                                            "kecamatan":  "Palu Utara",
+                                            "tingkat_risiko":  "Sedang",
+                                            "id_wilayah":  4
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.845,
+                                                                  -0.77
+                                                              ],
+                                                              [
+                                                                  119.885,
+                                                                  -0.77
+                                                              ],
+                                                              [
+                                                                  119.885,
+                                                                  -0.825
+                                                              ],
+                                                              [
+                                                                  119.845,
+                                                                  -0.825
+                                                              ],
+                                                              [
+                                                                  119.845,
+                                                                  -0.77
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#dc2626",
+                                            "nama_wilayah":  "Tatanga",
+                                            "kecamatan":  "Tatanga",
+                                            "tingkat_risiko":  "Tinggi",
+                                            "id_wilayah":  5
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.835,
+                                                                  -0.908
+                                                              ],
+                                                              [
+                                                                  119.87,
+                                                                  -0.908
+                                                              ],
+                                                              [
+                                                                  119.87,
+                                                                  -0.945
+                                                              ],
+                                                              [
+                                                                  119.835,
+                                                                  -0.945
+                                                              ],
+                                                              [
+                                                                  119.835,
+                                                                  -0.908
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#dc2626",
+                                            "nama_wilayah":  "Ulujadi",
+                                            "kecamatan":  "Ulujadi",
+                                            "tingkat_risiko":  "Tinggi",
+                                            "id_wilayah":  6
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.8,
+                                                                  -0.825
+                                                              ],
+                                                              [
+                                                                  119.842,
+                                                                  -0.825
+                                                              ],
+                                                              [
+                                                                  119.842,
+                                                                  -0.875
+                                                              ],
+                                                              [
+                                                                  119.8,
+                                                                  -0.875
+                                                              ],
+                                                              [
+                                                                  119.8,
+                                                                  -0.825
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#10b981",
+                                            "nama_wilayah":  "Mantikulore",
+                                            "kecamatan":  "Mantikulore",
+                                            "tingkat_risiko":  "Rendah",
+                                            "id_wilayah":  7
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.895,
+                                                                  -0.825
+                                                              ],
+                                                              [
+                                                                  119.94,
+                                                                  -0.825
+                                                              ],
+                                                              [
+                                                                  119.94,
+                                                                  -0.905
+                                                              ],
+                                                              [
+                                                                  119.895,
+                                                                  -0.905
+                                                              ],
+                                                              [
+                                                                  119.895,
+                                                                  -0.825
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "warna":  "#ea580c",
+                                            "nama_wilayah":  "Tawaeli",
+                                            "kecamatan":  "Tawaeli",
+                                            "tingkat_risiko":  "Sedang",
+                                            "id_wilayah":  8
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.86,
+                                                                  -0.69
+                                                              ],
+                                                              [
+                                                                  119.91,
+                                                                  -0.69
+                                                              ],
+                                                              [
+                                                                  119.91,
+                                                                  -0.765
+                                                              ],
+                                                              [
+                                                                  119.86,
+                                                                  -0.765
+                                                              ],
+                                                              [
+                                                                  119.86,
+                                                                  -0.69
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     }
+                 ],
+    "type":  "FeatureCollection"
+}

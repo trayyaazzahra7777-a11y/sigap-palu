@@ -1,0 +1,153 @@
+{
+    "features":  [
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Palu Selatan",
+                                            "warna":  "#dc2626",
+                                            "tipe_likuifaksi":  "Flow Liquefaction",
+                                            "luas_hektar":  180,
+                                            "nama":  "Zona Likuifaksi Petobo",
+                                            "kerentanan":  "Sangat Tinggi",
+                                            "keterangan":  "Zona aliran tanah masif pasca-gempa 2018 dengan litologi pasir lepas jenuh air."
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.9,
+                                                                  -0.92
+                                                              ],
+                                                              [
+                                                                  119.925,
+                                                                  -0.92
+                                                              ],
+                                                              [
+                                                                  119.928,
+                                                                  -0.94
+                                                              ],
+                                                              [
+                                                                  119.905,
+                                                                  -0.942
+                                                              ],
+                                                              [
+                                                                  119.9,
+                                                                  -0.92
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Palu Barat",
+                                            "warna":  "#dc2626",
+                                            "tipe_likuifaksi":  "Rotational Slump \u0026 Lateral Spreading",
+                                            "luas_hektar":  110,
+                                            "nama":  "Zona Likuifaksi Balaroa",
+                                            "kerentanan":  "Sangat Tinggi",
+                                            "keterangan":  "Zona amblesan permukiman padat akibat kenaikan tekanan air pori pada lapisan pasir koluvial."
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.835,
+                                                                  -0.885
+                                                              ],
+                                                              [
+                                                                  119.855,
+                                                                  -0.885
+                                                              ],
+                                                              [
+                                                                  119.855,
+                                                                  -0.902
+                                                              ],
+                                                              [
+                                                                  119.832,
+                                                                  -0.9
+                                                              ],
+                                                              [
+                                                                  119.835,
+                                                                  -0.885
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Tatanga",
+                                            "warna":  "#ea580c",
+                                            "tipe_likuifaksi":  "Lateral Spreading \u0026 Sand Boiling",
+                                            "luas_hektar":  240,
+                                            "nama":  "Zona Kerentanan Tatanga - Palu Lembah",
+                                            "kerentanan":  "Tinggi",
+                                            "keterangan":  "Wilayah dataran aluvial sungai Palu dengan muka air tanah dangkal (\u003c 2 meter)."
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.845,
+                                                                  -0.915
+                                                              ],
+                                                              [
+                                                                  119.875,
+                                                                  -0.915
+                                                              ],
+                                                              [
+                                                                  119.878,
+                                                                  -0.938
+                                                              ],
+                                                              [
+                                                                  119.842,
+                                                                  -0.935
+                                                              ],
+                                                              [
+                                                                  119.845,
+                                                                  -0.915
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     },
+                     {
+                         "properties":  {
+                                            "kecamatan":  "Palu Timur",
+                                            "warna":  "#eab308",
+                                            "tipe_likuifaksi":  "Sand Boiling \u0026 Settlement",
+                                            "luas_hektar":  95,
+                                            "nama":  "Zona Sempadan Pantai Talise",
+                                            "kerentanan":  "Sedang",
+                                            "keterangan":  "Endapan pasir pantai dan lanau aluvial sepanjang pesisir Teluk Palu."
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.865,
+                                                                  -0.865
+                                                              ],
+                                                              [
+                                                                  119.89,
+                                                                  -0.865
+                                                              ],
+                                                              [
+                                                                  119.892,
+                                                                  -0.885
+                                                              ],
+                                                              [
+                                                                  119.868,
+                                                                  -0.88
+                                                              ],
+                                                              [
+                                                                  119.865,
+                                                                  -0.865
+                                                              ]
+                                                          ],
+                                          "type":  "Polygon"
+                                      }
+                     }
+                 ],
+    "type":  "FeatureCollection"
+}

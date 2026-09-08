@@ -4,198 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard') | SIGAP-PALU</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root {
-            --sigap-teal: #0f766e;
-            --sigap-light-bg: #f8fafc;
-            --sigap-navy: #0f172a;
-            --sigap-border: #e2e8f0;
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+        .sidebar { width: 280px; background: #ffffff; border-right: 1px solid #e2e8f0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 100; transition: all 0.3s; }
+        .main-content { margin-left: 280px; min-height: 100vh; display: flex; flex-direction: column; }
+        .navbar-top { background: #ffffff; border-bottom: 1px solid #e2e8f0; height: 70px; }
+        .nav-link { color: #475569; font-weight: 500; border-radius: 8px; margin-bottom: 4px; padding: 10px 16px; transition: all 0.2s; }
+        .nav-link:hover { background-color: #f1f5f9; color: #059669; }
+        .nav-link.active { background-color: #ecfdf5; color: #059669; font-weight: 600; }
+        .brand-logo { font-size: 1.25rem; font-weight: 700; color: #0f172a; text-decoration: none; display: flex; align-items: center; gap: 10px; padding: 24px 20px; border-bottom: 1px solid #f1f5f9; }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; }
         }
-        * { box-sizing: border-box; }
-        html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden; /* Menghilangkan geser kanan/kiri */
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--sigap-light-bg);
-            color: var(--sigap-navy);
-        }
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: #ffffff;
-            border-right: 1px solid var(--sigap-border);
-            z-index: 1050;
-            display: flex;
-            flex-direction: column;
-        }
-        .sidebar-brand {
-            padding: 18px 20px;
-            font-weight: 800;
-            font-size: 1.15rem;
-            color: var(--sigap-navy);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid var(--sigap-border);
-        }
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            background: #ccfbf1;
-            color: var(--sigap-teal);
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .nav-link-custom {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
-            color: #475569;
-            text-decoration: none;
-            font-size: 0.84rem;
-            font-weight: 600;
-            border-radius: 8px;
-            margin: 2px 10px;
-            transition: all 0.2s ease;
-        }
-        .nav-link-custom:hover, .nav-link-custom.active {
-            background-color: #f0fdfa;
-            color: var(--sigap-teal);
-        }
-        .main-wrapper {
-            margin-left: 250px; /* Lebar pas berdampingan dengan sidebar */
-            min-height: 100vh;
-            width: calc(100% - 250px);
-            display: flex;
-            flex-direction: column;
-            background-color: var(--sigap-light-bg);
-        }
-        .topbar {
-            background: #ffffff;
-            border-bottom: 1px solid var(--sigap-border);
-            padding: 12px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .status-pill {
-            background: #ecfdf5;
-            color: #047857;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 99px;
-            border: 1px solid #a7f3d0;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
-            border-radius: 50%;
-        }
-        .card-custom {
-            background: #ffffff;
-            border: 1px solid var(--sigap-border);
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-        .badge-rendah { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
-        .badge-sedang { background-color: #fefce8; color: #a16207; border: 1px solid #fef08a; }
-        .badge-tinggi { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR TETAP DI KIRI -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <span class="brand-icon"><i class="bi bi-shield-check fs-5"></i></span>
-            <span>SIGAP<span style="color: var(--sigap-teal);">-PALU</span></span>
+    <!-- SIDEBAR -->
+    <div class="sidebar d-flex flex-column">
+        <a href="{{ route('landing') }}" class="brand-logo">
+            <div style="width: 36px; height: 36px; background: #ecfdf5; color: #059669; border-radius: 8px; display: flex; align-items: center; justify-content: center; border: 1px solid #a7f3d0;">
+                <i class="bi bi-shield-check"></i>
+            </div>
+            <span>SIGAP<span style="color: #059669;">-PALU</span></span>
+        </a>
+
+        <div class="p-3 flex-grow-1 overflow-auto">
+            <small class="text-uppercase text-muted fw-bold px-3 mb-2 d-block" style="font-size: 0.7rem;">Menu Utama</small>
+            <ul class="nav flex-column gap-1">
+                @if(Auth::user()->role === 'admin')
+                    <li><a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2 me-2"></i> Dashboard Admin</a></li>
+                    <li><a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}"><i class="bi bi-people me-2"></i> Manajemen Pengguna</a></li>
+                   <a href="{{ route('admin.indikator') }}" class="nav-link {{ request()->routeIs('admin.indikator') ? 'active' : '' }}">
+    <i class="bi bi-sliders me-2"></i> Indikator Risiko
+</a>
+                    <li><a href="{{ route('admin.logs') }}" class="nav-link {{ request()->routeIs('admin.logs') ? 'active' : '' }}"><i class="bi bi-clock-history me-2"></i> Audit Trail &amp; Log</a></li>
+                @elseif(Auth::user()->role === 'operator')
+                    <li><a href="{{ route('operator.dashboard') }}" class="nav-link {{ request()->routeIs('operator.dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2 me-2"></i> Posko Operator</a></li>
+                    <li><a href="{{ route('operator.peringatan') }}" class="nav-link {{ request()->routeIs('operator.peringatan*') ? 'active' : '' }}"><i class="bi bi-bell-fill me-2 text-warning"></i> Siaran Peringatan Dini</a></li>
+                    <li><a href="{{ route('operator.kejadian') }}" class="nav-link {{ request()->routeIs('operator.kejadian*') ? 'active' : '' }}"><i class="bi bi-shield-exclamation me-2 text-danger"></i> Kejadian Bencana</a></li>
+                    <li><a href="{{ route('operator.muka-laut') }}" class="nav-link {{ request()->routeIs('operator.muka-laut*') ? 'active' : '' }}"><i class="bi bi-water me-2 text-info"></i> Input Pasang Surut</a></li>
+                @else
+                    <li><a href="{{ route('user.dashboard') }}" class="nav-link {{ request()->routeIs('user.dashboard') ? 'active' : '' }}"><i class="bi bi-speedometer2 me-2"></i> Dashboard Warga</a></li>
+                    <li><a href="{{ route('user.simulasi') }}" class="nav-link {{ request()->routeIs('user.simulasi*') ? 'active' : '' }}"><i class="bi bi-cpu me-2 text-primary"></i> Simulasi Bencana</a></li>
+                    <li><a href="{{ route('user.unduh-kajian') }}" class="nav-link {{ request()->routeIs('user.unduh-kajian') ? 'active' : '' }}"><i class="bi bi-file-earmark-text me-2 text-success"></i> Unduh Kajian Wilayah</a></li>
+                @endif
+                
+                <li class="border-top my-2 pt-2">
+                    <small class="text-uppercase text-muted fw-bold px-3 mb-2 d-block" style="font-size: 0.7rem;">Navigasi Publik</small>
+                </li>
+                <li><a href="{{ route('public.peta') }}" class="nav-link" target="_blank"><i class="bi bi-map me-2 text-emerald"></i> WebGIS Terbuka</a></li>
+                <li><a href="{{ route('landing') }}" class="nav-link" target="_blank"><i class="bi bi-globe me-2"></i> Beranda Publik</a></li>
+            </ul>
         </div>
-        <div class="py-2 flex-grow-1 overflow-y-auto">
-            <div class="px-3 pb-2 text-uppercase text-muted" style="font-size: 0.68rem; font-weight: 700;">Monitoring Operasional</div>
-            <a href="{{ route('dashboard') }}" class="nav-link-custom {{ request()->routeIs('dashboard') || request()->routeIs('portal') ? 'active' : '' }}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
-            <a href="{{ route('peta.risiko') }}" class="nav-link-custom {{ request()->routeIs('peta.risiko') ? 'active' : '' }}"><i class="bi bi-geo-alt"></i> Peta Risiko</a>
-            <a href="{{ route('monitoring.index') }}" class="nav-link-custom {{ request()->routeIs('monitoring.index') ? 'active' : '' }}"><i class="bi bi-activity"></i> Monitoring Risiko</a>
-            <a href="{{ route('monitoring.gempa') }}" class="nav-link-custom {{ request()->routeIs('monitoring.gempa') ? 'active' : '' }}"><i class="bi bi-broadcast-pin"></i> Data Gempa (BMKG)</a>
-            <a href="{{ route('monitoring.laut') }}" class="nav-link-custom {{ request()->routeIs('monitoring.laut') ? 'active' : '' }}"><i class="bi bi-water"></i> Muka Laut (Simulasi)</a>
-            <a href="{{ route('kesiapsiagaan') }}" class="nav-link-custom {{ request()->routeIs('kesiapsiagaan') ? 'active' : '' }}"><i class="bi bi-shield-shaded"></i> Kesiapsiagaan</a>
-            <a href="{{ route('analisis') }}" class="nav-link-custom {{ request()->routeIs('analisis') ? 'active' : '' }}"><i class="bi bi-graph-up-arrow"></i> Analisis Potensi</a>
-            <a href="{{ route('peringatan') }}" class="nav-link-custom {{ request()->routeIs('peringatan') ? 'active' : '' }}"><i class="bi bi-bell"></i> Peringatan Kondisi</a>
-            <a href="{{ route('kejadian') }}" class="nav-link-custom {{ request()->routeIs('kejadian') ? 'active' : '' }}"><i class="bi bi-journal-text"></i> Kejadian Bencana</a>
 
-            {{-- MENU OPERATOR & ADMIN --}}
-            @if(in_array(auth()->user()->role ?? '', ['operator', 'admin']))
-            <div class="px-3 pt-3 pb-2 text-uppercase text-muted" style="font-size: 0.68rem; font-weight: 700;">Akses Posko & Teknis</div>
-            <a href="{{ route('indikator.index') }}" class="nav-link-custom {{ request()->routeIs('indikator.*') ? 'active' : '' }}"><i class="bi bi-sliders"></i> Manajemen Indikator</a>
-            @endif
-
-            {{-- MENU ADMIN --}}
-            @if((auth()->user()->role ?? '') === 'admin')
-            <div class="px-3 pt-3 pb-2 text-uppercase text-muted" style="font-size: 0.68rem; font-weight: 700;">Kendali Sistem</div>
-            <a href="{{ route('admin.pengguna') }}" class="nav-link-custom {{ request()->routeIs('admin.pengguna') ? 'active' : '' }}"><i class="bi bi-people"></i> Manajemen Pengguna</a>
-            <a href="{{ route('admin.log') }}" class="nav-link-custom {{ request()->routeIs('admin.log') ? 'active' : '' }}"><i class="bi bi-hdd-network"></i> Log Sumber Data</a>
-            @endif
-        </div>
-
-        <div class="p-3 border-top bg-white">
-            <div class="d-flex align-items-center justify-content-between">
+        <!-- USER INFO DI BAWAH SIDEBAR -->
+        <div class="p-3 border-top bg-light">
+            <div class="d-flex align-items-center justify-content-between mb-2">
                 <div>
-                    <div class="fw-bold small">{{ auth()->user()->name ?? 'Pengguna' }}</div>
-                    @if((auth()->user()->role ?? '') === 'admin')
-                        <span class="badge bg-dark text-white" style="font-size: 0.68rem;">ADMINISTRATOR</span>
-                    @elseif((auth()->user()->role ?? '') === 'operator')
-                        <span class="badge bg-primary text-white" style="font-size: 0.68rem;">OPERATOR POSKO</span>
-                    @else
-                        <span class="badge bg-secondary text-white" style="font-size: 0.68rem;">USER / WARGA</span>
-                    @endif
+                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 0.9rem;">{{ Auth::user()->name }}</h6>
+                    <span class="badge bg-success text-uppercase" style="font-size: 0.65rem;">{{ Auth::user()->role }}</span>
                 </div>
-                <form action="{{ route('logout') }}" method="POST" class="m-0">
-                    @csrf
-                    <button type="submit" class="btn btn-sm btn-light border text-danger" title="Keluar"><i class="bi bi-box-arrow-right"></i></button>
-                </form>
             </div>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-outline-danger btn-sm w-100 mt-2 rounded-2"><i class="bi bi-box-arrow-right me-1"></i> Keluar</button>
+            </form>
         </div>
-    </aside>
+    </div>
 
-    <!-- AREA KONTEN UTAMA BERDAMPINGAN -->
-    <div class="main-wrapper">
-        <header class="topbar">
-            <div>
-                <h6 class="mb-0 fw-bold">Monitoring Kesiapsiagaan & Risiko Bencana Kota Palu</h6>
-                <small class="text-muted">Pusat Data Terpadu Kebencanaan Lembah & Teluk Palu</small>
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-content">
+        <!-- TOPBAR -->
+        <nav class="navbar navbar-top px-4 d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0 text-dark">@yield('header-title', 'Dashboard')</h5>
+            <div class="text-muted small">
+                <i class="bi bi-calendar-event me-1"></i> {{ date('d M Y') }}
             </div>
-            <div class="d-flex align-items-center gap-3">
-                <span class="status-pill"><span class="status-dot"></span> SISTEM TERHUBUNG</span>
-                <span class="text-muted small">Data: {{ date('d M Y, H:i') }} WITA</span>
-            </div>
-        </header>
+        </nav>
 
-        <main class="p-3 flex-grow-1">
+        <!-- KONTEN UTAMA -->
+        <div class="p-4 flex-grow-1">
             @yield('content')
-        </main>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="text-center py-3 text-muted small border-top bg-white">
+            &copy; {{ date('Y') }} SIGAP-PALU &bull; Pusat Mitigasi Bencana Kota Palu
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    @stack('scripts')
 </body>
 </html>

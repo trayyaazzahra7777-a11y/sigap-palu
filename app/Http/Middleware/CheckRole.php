@@ -9,12 +9,34 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!Auth::check() || Auth::user()->role !== $role) {
-            abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk halaman ini.');
+        // 1. Cek apakah user sudah login
+        if (! Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan masuk terlebih dahulu.');
         }
 
-        return $next($request);
+        // 2. Cek apakah akun aktif
+        if (Auth::user()->status !== 'aktif') {
+            Auth::logout();
+
+            return redirect('/login')->with('error', 'Akun Anda dinonaktifkan. Hubungi Admin.');
+        }
+
+        // 3. Cek apakah role user ada di dalam daftar role yang diizinkan
+        if (in_array(Auth::user()->role, $roles)) {
+            return $next($request);
+        }
+
+        // 4. Jika role tidak sesuai, lempar kembali ke dashboard masing-masing
+        $role = Auth::user()->role;
+        if ($role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+        if ($role === 'operator') {
+            return redirect('/operator/dashboard');
+        }
+
+        return redirect('/user/dashboard');
     }
 }

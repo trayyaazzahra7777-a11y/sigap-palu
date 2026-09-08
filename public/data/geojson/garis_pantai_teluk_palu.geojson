@@ -1,0 +1,64 @@
+{
+    "features":  [
+                     {
+                         "properties":  {
+                                            "panjang_km":  "42 km",
+                                            "keterangan":  "Teluk Palu memiliki morfologi sempit memanjang yang menyebabkan amplifikasi gelombang tsunami lokal.",
+                                            "tipe":  "Wilayah Pesisir Rawan Tsunami \u0026 Limpasan",
+                                            "sumber":  "BIG / Dishidros",
+                                            "nama":  "Garis Sempadan Pesisir Teluk Palu"
+                                        },
+                         "type":  "Feature",
+                         "geometry":  {
+                                          "coordinates":  [
+                                                              [
+                                                                  119.86,
+                                                                  -0.68
+                                                              ],
+                                                              [
+                                                                  119.865,
+                                                                  -0.73
+                                                              ],
+                                                              [
+                                                                  119.868,
+                                                                  -0.78
+                                                              ],
+                                                              [
+                                                                  119.875,
+                                                                  -0.84
+                                                              ],
+                                                              [
+                                                                  119.88,
+                                                                  -0.875
+                                                              ],
+                                                              [
+                                                                  119.865,
+                                                                  -0.885
+                                                              ],
+                                                              [
+                                                                  119.85,
+                                                                  -0.875
+                                                              ],
+                                                              [
+                                                                  119.84,
+                                                                  -0.84
+                                                              ],
+                                                              [
+                                                                  119.83,
+                                                                  -0.79
+                                                              ],
+                                                              [
+                                                                  119.815,
+                                                                  -0.74
+                                                              ],
+                                                              [
+                                                                  119.805,
+                                                                  -0.68
+                                                              ]
+                                                          ],
+                                          "type":  "LineString"
+                                      }
+                     }
+                 ],
+    "type":  "FeatureCollection"
+}
